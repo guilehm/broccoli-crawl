@@ -1,24 +1,15 @@
-import re
-import json
-
 import scrapy
+
+from scrapy import Request
 
 
 class OpenFoodSpider(scrapy.Spider):
     name = "open_food"
-    start_urls = ["https://world.openfoodfacts.org/"]
+    base_url = "https://world.openfoodfacts.org"
+    start_urls = [base_url]
 
     def parse(self, response, **kwargs):
-        script_content = response.xpath(
-            "//script[@type='text/javascript' and contains(text(), 'var products')]/text()"
-        ).get("")
-
-        data_pattern = r"var products = (.*?);"
-        match = re.search(pattern=data_pattern, string=script_content)
-        if not match:
-            return
-
-        products = json.loads(match.group(1))
-
-        with open("./whatever.json", "w") as outfile:
-            outfile.write(json.dumps(products))
+        products = response.xpath('//div[@id="search_results"]/ul[@class="products"]/li')
+        links = products.xpath('./a/@href').getall()
+        for link in links[:2]:
+            yield Request(f"{self.base_url}{link}")
