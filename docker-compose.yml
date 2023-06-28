@@ -1,0 +1,12 @@
+version: '3.8'
+networks:
+  default:
+
+
+services:
+
+  mongo:
+    container_name: mongo_stocks
+    image: mongo:latest
+    ports:
+      - 27017:27017
