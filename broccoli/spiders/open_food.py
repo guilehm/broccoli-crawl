@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 import scrapy
@@ -17,11 +18,13 @@ class OpenFoodSpider(scrapy.Spider):
 
         self.logger.info(f"found {len(links)} products")
 
-        for link in links[:1]:
+        for link in links:
             yield Request(f"{self.base_url}{link}")
 
     def parse_product_detail(self, response):
         yield ProductItem(
+            name=response.xpath('//*[@id="field_generic_name_value"]/span/text()').get(),
+            url=response.request.url,
             barcode=response.xpath('//*[@id="barcode_paragraph"]/span/text()').get(),
             quantity=response.xpath('//*[@id="field_quantity_value"]/text()').get(),
             brands=[{
@@ -36,7 +39,7 @@ class OpenFoodSpider(scrapy.Spider):
                 "href": brand.xpath('./@href').get(),
                 "name": brand.xpath('./text()').get(),
             } for brand in response.xpath('//*[@id="field_categories_value"]/a[@class="tag well_known"]')],
-            date=datetime.now(),
+            date=datetime.now().isoformat(),
         )
 
     def parse(self, response, **kwargs):
