@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "broccoli-crawl"
+version = "0.1.0"
+description = ""
+authors = ["gui <guihm.dev@gmail.com>"]
+readme = "README.md"
+packages = [{include = "broccoli_crawl"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+scrapy = "^2.9.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
