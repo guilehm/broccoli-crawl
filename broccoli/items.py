@@ -10,6 +10,6 @@ class ProductItem(scrapy.Item):
     barcode = scrapy.Field()
     quantity = scrapy.Field()
     brands = scrapy.Field()
-    packages = scrapy.Field()
+    packaging = scrapy.Field()
     categories = scrapy.Field()
     date = scrapy.Field()

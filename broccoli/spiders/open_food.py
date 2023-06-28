@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import scrapy
 from scrapy import Request
 
@@ -23,15 +25,21 @@ class OpenFoodSpider(scrapy.Spider):
             barcode=response.xpath('//*[@id="barcode_paragraph"]/span/text()').get(),
             quantity=response.xpath('//*[@id="field_quantity_value"]/text()').get(),
             brands=[{
-                "href": brand.xpath('.//a[@itemprop="brand"]/@href').get(),
-                "name": brand.xpath('.//a[@itemprop="brand"]/text()').get(),
-            } for brand in response.xpath('//*[@id="field_brands"]')],
+                "href": brand.xpath('./@href').get(),
+                "name": brand.xpath('./text()').get(),
+            } for brand in response.xpath('//*[@id="field_brands_value"]/a[@itemprop="brand"]')],
+            packaging=[{
+                "href": brand.xpath('./@href').get(),
+                "name": brand.xpath('./text()').get(),
+            } for brand in response.xpath('//*[@id="field_packaging_value"]/a[@class="tag well_known"]')],
+            categories=[{
+                "href": brand.xpath('./@href').get(),
+                "name": brand.xpath('./text()').get(),
+            } for brand in response.xpath('//*[@id="field_categories_value"]/a[@class="tag well_known"]')],
+            date=datetime.now(),
         )
 
     def parse(self, response, **kwargs):
-
-        print("1", response.request.url == self.base_url)
-        print("2", response.request.url.startswith(f"{self.base_url}/products/"))
         if response.request.url == self.base_url:
             return self.parse_product_list(response)
         if response.request.url.startswith(f"{self.base_url}/product/"):
