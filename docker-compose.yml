@@ -7,7 +7,7 @@ services:
     container_name: crawler
     command: scrapy crawl open_food
     volumes:
-      - ./broccoli:/code
+      - .:/code
     environment:
       DATABASE_URL: mongodb://mongo:27017/broccoli
       MONGODB_URL:
