@@ -9,4 +9,4 @@ services:
     container_name: mongo_stocks
     image: mongo:latest
     ports:
-      - 27017:27017
+      - "27017:27017"
