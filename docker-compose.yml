@@ -1,12 +1,23 @@
 version: '3.8'
-networks:
-  default:
-
 
 services:
 
+  crawler:
+    build: .
+    container_name: crawler
+    command: scrapy crawl open_food
+    volumes:
+      - ./broccoli:/code
+    environment:
+      DATABASE_URL: mongodb://mongo:27017/broccoli
+      MONGODB_URL:
+    depends_on:
+      - mongo
+    user: "1000:1000"
+
   mongo:
-    container_name: mongo_stocks
+    hostname: mongo
+    container_name: mongo_broccoli
     image: mongo:latest
     ports:
       - "27017:27017"
