@@ -9,8 +9,7 @@ services:
     volumes:
       - .:/code
     environment:
-      DATABASE_URL: mongodb://mongo:27017/broccoli
-      MONGODB_URL:
+      MONGODB_URL: mongodb://mongo:27017/broccoli
     depends_on:
       - mongo
     user: "1000:1000"
