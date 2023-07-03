@@ -10,7 +10,7 @@ from itemadapter import ItemAdapter
 from pymongo import MongoClient
 
 client = MongoClient(os.getenv("MONGODB_URL"))
-db = client["brocooli"]
+db = client["broccoli"]
 
 
 class BroccoliPipeline:
