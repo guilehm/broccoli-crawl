@@ -9,6 +9,7 @@ packages = [{include = "broccoli_crawl"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 scrapy = "^2.9.0"
+pymongo = "^4.4.0"
 
 
 [build-system]
